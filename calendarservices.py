@@ -11,15 +11,17 @@ sys.path.insert(0, ".");
 import caldav
 
 class calDAVServices:
+    myprinciple = 0
+
     def __init__(self, url, username, password):
         self.url = url
         self.username = username
         self.password = password
-
-    def getCalendars(self):
-        with caldav.DAVClient(url=self.url, username=self.username, password=self.password) as client:
-            my_principle = client.principal()
+        calDAVServices.myprinciple = self.clientConnection(self.username, self.password)
+        
+    def getCalendars(self, my_principle):
             calendars = my_principle.calendars(calendars)
+            self.listCalendars(calendars);
 
     def listCalendars(calendars):
         if calendars:
@@ -28,3 +30,10 @@ class calDAVServices:
                 print(" Name: %-36s URL: %s" % (c.name, c.url))
         else:
             print("You have no calendars, Create One!")
+        
+    def createCalendar():
+        pass
+
+    def clientConnection(url, username, password):
+        with caldav.DAVClient(url=url, username=username, password=password) as client:
+            my_principle = client.principal()
