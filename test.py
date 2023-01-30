@@ -1,5 +1,12 @@
 from calendarservices import calDAVServices
 
 def main():
-    calDavService = calDAVServices("http://localhost/dav.php", "test", "password")
-    calDavService.getCalendars(calDavService.myprinciple)
+    calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
+
+    newcal = calDAVService.createCalendar()
+    print(newcal)
+    value = calDAVService.getCalendars()
+    print(value)
+
+
+main()
