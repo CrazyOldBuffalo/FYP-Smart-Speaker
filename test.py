@@ -5,6 +5,8 @@ def main():
 
     value = calDAVService.getCalendars()
     print(value)
-
+    calendars = calDAVService.listCalendars()
+    print(calendars)
+    print(len(calDAVService.searchEventToday()))
 
 main()
