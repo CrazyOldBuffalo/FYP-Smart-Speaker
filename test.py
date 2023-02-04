@@ -1,12 +1,16 @@
 from calendarservices import calDAVServices
+from texttospeechservice import textToSpeechService
 
 def main():
-    calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
+    #calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
+    ttsEngine = textToSpeechService()
 
-    value = calDAVService.getCalendars()
-    print(value)
-    calendars = calDAVService.listCalendars()
-    print(calendars)
-    print(len(calDAVService.searchEventToday()))
+    ttsEngine.test()
+
+    #value = calDAVService.getCalendars()
+    #print(value)
+    #calendars = calDAVService.listCalendars()
+    #print(calendars)
+    #print(len(calDAVService.searchEventToday()))
 
 main()
