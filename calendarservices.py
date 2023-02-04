@@ -4,6 +4,7 @@
 import sys
 from datetime import date
 from datetime import datetime
+from datetime import timedelta
 
 sys.path.insert(0, "..");
 sys.path.insert(0, ".");
@@ -26,8 +27,8 @@ class calDAVServices:
         calendars = self.myprinciple.calendars()
         return calendars
     
-    def findOneCalendar(self, url):
-
+    def findOneCalendar(self):
+        calendars = self.getCalendars
         pass
 
     def listCalendars(self):
@@ -44,8 +45,22 @@ class calDAVServices:
         return new_calendar
 
     def createEvent(self):
-        new_event = self.myprinciple
-        pass
+        calendar = self.getCalendars()
+        new_event = calendar[0].save_event(
+            dtstart = datetime(2023, 5, 5, 12),
+            dtend = datetime(2023,2,5,13),
+            summary = "Wake up"
+        )
+
+    def searchEventToday(self):
+        calendar = self.getCalendars()
+        search_results = calendar[0].search(
+            start = datetime.today(),
+            end = datetime.today() + timedelta(days=1),
+            event=True,
+            expand=False,
+        )
+        return search_results
 
     def clientConnection(self, calDavUrl, uName, passW):
         with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
