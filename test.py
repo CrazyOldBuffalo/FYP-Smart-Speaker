@@ -2,14 +2,19 @@ from datetime import datetime
 from calendarservices import calDAVServices
 from texttospeechservice import textToSpeechService
 
-def createEvent(calDavService: calDAVServices):
+def createEvent(calDavService: calDAVServices, ttsEngine: textToSpeechService):
     startmonth = int(input("Enter Month:"))
     startday = int(input("Enter Day:"))
     startTimehour = int(input("What Hour?"))
     startTimeMin = int(input("What Min?"))
     eventStartTime = datetime(datetime.now().year, startmonth, startday, startTimehour, startTimeMin)
     eventname = input("Name of the event")
-    calDavService.createEventTest(eventStartTime, eventname)
+    returnevent = calDavService.createEventTest(eventStartTime, eventname)
+    if not returnevent:
+        ttsEngine.eventError()
+    else:
+        ttsEngine.eventCreated(eventStartTime, eventname)
+
     
 
 def main():

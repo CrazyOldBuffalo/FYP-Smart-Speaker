@@ -56,10 +56,10 @@ class calDAVServices:
         calendars = self.getCalendars()
         new_event = calendars[0].save_event(
             dtstart = startdate,
-            dtend = datetime(startdate + timedelta(days=1)),
+            dtend = startdate + timedelta(hours=1),
             summary = title
         )
-        #return new_event
+        return new_event
 
     def searchEventToday(self):
         calendar = self.getCalendars()

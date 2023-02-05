@@ -14,6 +14,16 @@ class textToSpeechService:
         self.engine.say(text)
         self.engine.runAndWait()
 
+    def eventCreated(self, startdate, eventname):
+        testdate = str(startdate)
+        self.engine.say("Event Successfully Created")
+        self.engine.say("Name: %s" % (eventname))
+        self.engine.say("Time: %s" % (testdate))
+        self.engine.runAndWait()
+
+    def eventError(self):
+        self.engine.say("Error Occurred Creating Event, Please Try again!")
+        self.engine.runAndWait()
 
     def speakCalendars(self, output):
         if output:
