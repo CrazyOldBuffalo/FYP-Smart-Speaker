@@ -10,6 +10,11 @@ class textToSpeechService:
         self.engine.say("Test to ensure working")
         self.engine.runAndWait()
 
+    def tester(self, text):
+        self.engine.say(text)
+        self.engine.runAndWait()
+
+
     def speakCalendars(self, output):
         if output:
             self.engine.say("You have %i calendars: " % len(output))

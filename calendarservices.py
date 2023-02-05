@@ -51,6 +51,15 @@ class calDAVServices:
             dtend = datetime(2023,2,5,13),
             summary = "Wake up"
         )
+    
+    def createEventTest(self, startdate, title):
+        calendars = self.getCalendars()
+        new_event = calendars[0].save_event(
+            dtstart = startdate,
+            dtend = endate,
+            summary = title
+        )
+        #return new_event
 
     def searchEventToday(self):
         calendar = self.getCalendars()
