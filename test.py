@@ -18,12 +18,10 @@ def createEvent(calDavService: calDAVServices, ttsEngine: textToSpeechService):
     
 
 def main():
-    calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
+    #calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
     ttsEngine = textToSpeechService()
-
     ttsEngine.test()
-
-    createEvent(calDAVService)
+    #createEvent(calDAVService)
     #value = calDAVService.getCalendars()
     #ttsEngine.speakCalendars(value)
     #print(value)

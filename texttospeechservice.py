@@ -1,10 +1,12 @@
 import pyttsx3
+from ttsQueryBuilder import queryBuilder
 
 
 class textToSpeechService:
 
     def __init__(self):
         self.engine = pyttsx3.init()
+        self.queryBuilder = queryBuilder()
 
     def test(self):
         self.engine.say("Test to ensure working")
@@ -15,7 +17,8 @@ class textToSpeechService:
         self.engine.runAndWait()
 
     def eventCreated(self, startdate, eventname):
-        testdate = str(startdate)
+        test = queryBuilder.eventCreated(eventname, startdate)
+        print(test)
         self.engine.say("Event Successfully Created")
         self.engine.say("Name: %s" % (eventname))
         self.engine.say("Time: %s" % (testdate))
