@@ -11,5 +11,9 @@ class queryBuilder:
     
     def eventCreated(self, eventname, date):
         self.data.append("Event Successfully Created, ", self.itemToString(eventname), ". At ", self.itemToString(date))
-        self.buildSentence
+        return self.data
+
+    def getEventsToday(self, events):
+        for i in events:
+            pass
     
