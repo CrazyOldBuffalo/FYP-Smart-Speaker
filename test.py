@@ -22,6 +22,8 @@ def main():
     #calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
     ttsEngine = textToSpeechService()
     ttsEngine.tester()
+    calParser = CalendarParser()
+    calParser.parseICS()
     #createEvent(calDAVService)
     #value = calDAVService.getCalendars()
     #ttsEngine.speakCalendars(value)
