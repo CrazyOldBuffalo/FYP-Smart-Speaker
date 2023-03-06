@@ -1,33 +1,21 @@
 from datetime import datetime
-from calendarservices import calDAVServices
-from texttospeechservice import textToSpeechService
-from calendarParser import CalendarParser
-
-def createEvent(calDavService: calDAVServices, ttsEngine: textToSpeechService):
-    startmonth = int(input("Enter Month:"))
-    startday = int(input("Enter Day:"))
-    startTimehour = int(input("What Hour?"))
-    startTimeMin = int(input("What Min?"))
-    eventStartTime = datetime(datetime.now().year, startmonth, startday, startTimehour, startTimeMin)
-    eventname = input("Name of the event")
-    returnevent = calDavService.createEventTest(eventStartTime, eventname)
-    if not returnevent:
-        ttsEngine.eventError()
-    else:
-        ttsEngine.eventCreated(eventStartTime, eventname)
-
+#from calendarservices import calDAVServices
+#from texttospeechservice import textToSpeechService
+#from calendarParser import CalendarParser
+from datetime import datetime
+from datetime import timedelta
     
 
 def main():
     #calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
-    ttsEngine = textToSpeechService()
-    ttsEngine.tester()
-    calParser = CalendarParser()
-    calParser.parseICS()
+    #ttsEngine = textToSpeechService()
+    #ttsEngine.tester()
+    #calParser = CalendarParser()
+    #calParser.parseICS()
     #createEvent(calDAVService)
     #value = calDAVService.getCalendars()
     #ttsEngine.speakCalendars(value)
-    #print(value)
+    print(value)
     #calendars = calDAVService.listCalendars()
     #print(calendars)
     #print(len(calDAVService.searchEventToday()))

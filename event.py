@@ -1,13 +1,12 @@
 from datetime import datetime
 
 class EventObj:
-    def __init__(self, startdate, startime, enddate, endtime, summary, url):
+    def __init__(self, startdate, startime, enddate, endtime, summary):
         self.startdate = startdate
         self.starttime = startime
         self.enddate = enddate
         self.endtime = endtime
         self.title = summary
-        self.url = url
 
     
     def getStartDate(self) -> datetime:
