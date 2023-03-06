@@ -1,12 +1,10 @@
 import pyttsx3
-from ttsQueryBuilder import queryBuilder
-
+from event import EventObj
 
 class textToSpeechService:
 
     def __init__(self):
         self.engine = pyttsx3.init()
-        self.queryBuilder = queryBuilder()
 
     def test(self):
         self.engine.say("Test to ensure working")
@@ -16,11 +14,31 @@ class textToSpeechService:
         self.engine.say(text)
         self.engine.runAndWait()
 
-    def eventCreated(self, startdate, eventname):
-        self.engine.say("Event Successfully Created")
-        self.engine.say("Name: %s" % (eventname))
-        self.engine.say("Time: %s" % (startdate))
+    def eventCreated(self, startdate, startime, eventname):
+        self.engine.say("Event Successfully Created.")
+        self.engine.say("Name: %s," % (eventname))
+        self.engine.say("On %s," % (startdate))
+        self.engine.say("At: %s" % (startime))
         self.engine.runAndWait()
+
+    def listEventsToday(self, events: [EventObj]):
+        self.engine.say("There are %s Events Today" %(len(events)))
+        for i in events:
+            self.engine.say("%s: " % (i))
+            self.engine.say("Name: %s," %(i.getSummary()))
+            self.engine.say("On: %s," %(i.getStartDate()))
+            self.engine.say("At: %s" %(i.getStartTime()))
+
+    def listEvents(self, events: [EventObj]):
+        self.engine.say("There are %s Events in the Calendar" %(len(events)))
+        for i in events:
+            self.engine.say("%s: " % (i))
+            self.engine.say("Name: %s," %(i.getSummary()))
+            self.engine.say("On: %s," %(i.getStartDate()))
+            self.engine.say("At: %s" %(i.getStartTime()))
+
+    def noEventsFound(self):
+        self.engine.say("Sorry, no events found")
 
     def eventError(self):
         self.engine.say("Error Occurred Creating Event, Please Try again!")

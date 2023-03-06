@@ -34,3 +34,4 @@ class EventObj:
 
     def convertDTToString(self, dt: datetime) -> str:
         convert = str(dt)
+        return convert
