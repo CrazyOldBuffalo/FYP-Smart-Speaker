@@ -17,11 +17,9 @@ class textToSpeechService:
         self.engine.runAndWait()
 
     def eventCreated(self, startdate, eventname):
-        test = queryBuilder.eventCreated(eventname, startdate)
-        print(test)
         self.engine.say("Event Successfully Created")
         self.engine.say("Name: %s" % (eventname))
-        self.engine.say("Time: %s" % (testdate))
+        self.engine.say("Time: %s" % (startdate))
         self.engine.runAndWait()
 
     def eventError(self):

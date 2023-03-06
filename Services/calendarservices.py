@@ -23,14 +23,12 @@ class calDAVServices:
         self.password = password
         self.myprinciple = self.clientConnection(self.url, self.username, self.password);
 
+    # Getting All Calendar Information and Data
     def getCalendars(self):
         calendars = self.myprinciple.calendars()
         return calendars
-    
-    def findOneCalendar(self):
-        calendars = self.getCalendars
-        pass
 
+    # Testing function
     def listCalendars(self):
         calendars = self.getCalendars();
         if calendars:
@@ -40,19 +38,15 @@ class calDAVServices:
         else:
             print("You have no calendars, Create One!")
     
-    def createCalendar(self):
-        new_calendar = self.myprinciple.make_calendar(name = "This is for Testing")
+    # Function for creating a calendar, Not used in project but there for testing
+    def createCalendar(self, calendarName):
+        new_calendar = self.myprinciple.make_calendar(name = calendarName)
         return new_calendar
-
-    def createEvent(self):
-        calendar = self.getCalendars()
-        new_event = calendar[0].save_event(
-            dtstart = datetime(2023, 5, 5, 12),
-            dtend = datetime(2023,2,5,13),
-            summary = "Wake up"
-        )
     
-    def createEventTest(self, startdate, title):
+
+    # Functions for creating events
+    # Function for creating a generic event that lasts 1 hour
+    def createEvent(self, startdate, title):
         calendars = self.getCalendars()
         new_event = calendars[0].save_event(
             dtstart = startdate,
@@ -61,6 +55,18 @@ class calDAVServices:
         )
         return new_event
 
+    # Function for creating a generic event with an endtime passed in
+    def createEventEnd(self, startdate, enddate, title):
+        calendars = self.getCalendars()
+        new_event = calendars[0].save_event(
+            dtstart = startdate,
+            dtend = enddate,
+            summary = title
+        )
+        return new_event
+
+    # Functions for searching for events
+    # Searches for an event today at current time for 24hrs later
     def searchEventToday(self):
         calendar = self.getCalendars()
         search_results = calendar[0].search(
@@ -70,7 +76,40 @@ class calDAVServices:
             expand=False,
         )
         return search_results
+    
+    # Searches for all Events on the Calendar
+    def searchAllEvent(self):
+        calendar = self.getCalendars()
+        search_results = calendar[0].search(event=True, expand=False)
+        return search_results
+    
+    # Searches for one event using the url
+    def searchOneEvent(self, url):
+        calendar = self.getCalendars()
+        item = calendar[0].event_by_url(url)
+        return item
 
+    # Searches for an event from today to max setting for the summary
+    def searchEventSummary(self, summary):
+        calendar = self.getCalendars()
+        starttime = datetime.today()
+        search_results = calendar[0].search(
+            event = True,
+            expand = False,
+            start = starttime,
+            end = datetime.max(),
+            summary = summary
+        )
+        return search_results
+    
+    # Functions for editing & deleting events - In Progress
+    def editEvent(self, ics, summary, startDate, endDate):
+        pass
+
+    def deleteEvent(self, ics, summary):
+        pass
+
+    # Initial connection to CalDav Server via client
     def clientConnection(self, calDavUrl, uName, passW):
         with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
             myprinciple = client.principal()
