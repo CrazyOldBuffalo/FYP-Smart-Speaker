@@ -117,7 +117,7 @@ class calDAVServices:
             self.ttsService.noEventsFound()
         else:
             ev = self.calParser.parseICS(item)
-            # self.ttsService.OneEvent(ev)
+            
 
     # Searches for an event from today to max setting for the summary
     def searchEventSummary(self, summary):

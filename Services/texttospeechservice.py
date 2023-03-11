@@ -21,24 +21,26 @@ class textToSpeechService:
         self.engine.say("At: %s" % (startime))
         self.engine.runAndWait()
 
-    def listEventsToday(self, events: [EventObj]):
+    def listEventsToday(self, events: list[EventObj]):
         self.engine.say("There are %s Events Today" %(len(events)))
         for i in events:
             self.engine.say("%s: " % (i))
             self.engine.say("Name: %s," %(i.getSummary()))
             self.engine.say("On: %s," %(i.getStartDate()))
             self.engine.say("At: %s" %(i.getStartTime()))
+            self.engine.runAndWait()
 
-    def listEvents(self, events: [EventObj]):
+    def listEvents(self, events: list[EventObj]):
         self.engine.say("There are %s Events in the Calendar" %(len(events)))
         for i in events:
-            self.engine.say("%s: " % (i))
             self.engine.say("Name: %s," %(i.getSummary()))
             self.engine.say("On: %s," %(i.getStartDate()))
             self.engine.say("At: %s" %(i.getStartTime()))
+            self.engine.runAndWait();
 
     def noEventsFound(self):
         self.engine.say("Sorry, no events found")
+        self.engine.runAndWait()
 
     def eventError(self):
         self.engine.say("Error Occurred Creating Event, Please Try again!")
