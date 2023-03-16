@@ -1,5 +1,5 @@
 import pyttsx3
-from event import EventObj
+from Services.event import EventObj
 
 class textToSpeechService:
 

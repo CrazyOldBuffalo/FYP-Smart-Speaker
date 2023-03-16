@@ -5,8 +5,8 @@ import sys
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from texttospeechservice import textToSpeechService
-from calendarParser import CalendarParser
+from Services.texttospeechservice import textToSpeechService
+from Services.calendarParser import CalendarParser
 
 sys.path.insert(0, "..");
 sys.path.insert(0, ".");
@@ -133,14 +133,14 @@ class calDAVServices:
         return search_results
     
     # Functions for editing & deleting events - In Progress
-    def editEvent(self, ics, summary, startDate, endDate):
-        pass
-
     def deleteEvent(self, ics, summary):
         pass
 
     # Initial connection to CalDav Server via client
     def clientConnection(self, calDavUrl, uName, passW):
-        with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
-            myprinciple = client.principal()
-            return myprinciple
+        try:
+            with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
+                myprinciple = client.principal()
+                return myprinciple
+        except (TimeoutError, ConnectionError):
+            print("Connection failed")
