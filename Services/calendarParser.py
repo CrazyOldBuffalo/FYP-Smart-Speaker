@@ -1,4 +1,4 @@
-from event import EventObj
+from Services.event import EventObj
 
 
 class CalendarParser:
