@@ -1,5 +1,6 @@
 from datetime import datetime
 from Services.calendarservices import calDAVServices
+from Services.sttTest import SpeechToText
     
 def createEvent(calDAVService: calDAVServices):
     month = int(input("Enter Month as Number: \n"))
@@ -18,15 +19,7 @@ def eventToday(calDAVService: calDAVServices):
 
 def main():
     calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
-    menu = True
-    while menu:
-        mode = input("Press A for creating, B for events today")
-        match mode:
-            case 'A':
-                menu = False
-                createEvent(calDAVService)
-            case 'B':
-                menu = False
-                eventToday(calDAVService)
- 
+    stt = SpeechToText(5)
+    stt.run()
+    
 main()

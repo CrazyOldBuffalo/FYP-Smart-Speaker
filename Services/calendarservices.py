@@ -138,9 +138,7 @@ class calDAVServices:
 
     # Initial connection to CalDav Server via client
     def clientConnection(self, calDavUrl, uName, passW):
-        try:
-            with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
-                myprinciple = client.principal()
-                return myprinciple
-        except (TimeoutError, ConnectionError):
-            print("Connection failed")
+        
+        with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
+            myprinciple = client.principal()
+            return myprinciple
