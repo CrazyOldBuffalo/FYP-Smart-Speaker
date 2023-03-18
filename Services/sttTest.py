@@ -3,38 +3,47 @@ import time
 
 class SpeechToText:
 
-    def __init__(self, timeout):
-        self.recognizer = speechRecognition.Recognizer()
-        self.timeout = timeout
-
-    def listen(self):
-        with speechRecognition.Microphone() as source:
-            print("listening now")
-            self.recognizer.adjust_for_ambient_noise(source)
-            try:
-                audio = self.recognizer.listen(source, timeout = self.timeout)
-            except speechRecognition.WaitTimeoutError:
-                print("End of Speech Detected")
-                return None
-
-            return audio
+    def __init__(self, timeout) -> None:
+        self.__recognizer = speechRecognition.Recognizer()
+        self.__timeout = timeout
+        self.__audioData = None
     
-    def recognize(self, audio):
-        if audio is None:
-            return None
+        
+    def getRecognizer(self) -> speechRecognition.Recognizer:
+        return self.__recognizer
+        
+    def getTimeout(self) -> int:
+        return self.__timeout
+
+    def setNewTimeout(self, newTimeout):
+        self.__timeout = newTimeout
+    
+    def listen(self) -> speechRecognition.AudioData:
+        with speechRecognition.Microphone as Source:
+            self.__audioData = self.__recognizer.listen(timeout=self.__timeout)
+        return self.__audioData
+    
+    def recognitionGoogle(self):
+        data = self.listen()
+        text = self.__recognizer.recognize_google(data)
+        return text
+    
+    def recognitionPocketSphinx(self):
+        data = self.listen()
+        text = self.__recognizer.recognize_sphinx(data)
+        return text
+
+    def recognition(self):
         try:
-            text = self.recognizer.recognize_google(audio)
-            print("You Said: ", text)
-        except speechRecognition.UnknownValueError:
-            print("Could Not Understand")
-        except speechRecognition.RequestError as e:
-            print("Could Not get results")
-    
-    def run(self):
-        while True:
-            audio = self.listen()
-            text = self.recognize(audio)
+            value = self.recognitionGoogle()
+            return value
+        except (speechRecognition.RequestError, speechRecognition.UnknownValueError):
+            try:
+                value = self.recognitionPocketSphinx()
+                return value
+            except speechRecognition.UnknownValueError:
+                print("Unable to get Text")
+            except speechRecognition.RequestError: 
+                print("No services available for Recognition")
 
-            if text is not None:
-                print("Converted Text: ", text)
-            time.sleep(self.timeout)
+

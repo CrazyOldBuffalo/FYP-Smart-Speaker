@@ -1,6 +1,7 @@
 from datetime import datetime
 from Services.calendarservices import calDAVServices
 from Services.sttTest import SpeechToText
+from wakeWordtest import WakeWord
     
 def createEvent(calDAVService: calDAVServices):
     month = int(input("Enter Month as Number: \n"))
@@ -19,7 +20,12 @@ def eventToday(calDAVService: calDAVServices):
 
 def main():
     calDAVService = calDAVServices("http://localhost/dav.php", "test", "password")
-    stt = SpeechToText(5)
-    stt.run()
+    WakeWordService = WakeWord("/Precise-Engine/PreciseEngine", "/Model/hey-mycroft.pb")
+    WakeWordService.start()
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        WakeWordService.stop()
     
 main()

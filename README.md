@@ -3,6 +3,7 @@
 See requirements file for all installed packages.
 
 ## Building
+
 To get the project working,
 
 1. Using Docker navigate to /Docker from the project directory in the terminal
@@ -15,5 +16,6 @@ To get the project working,
 4. Run one of the commands in test.py after the connection (create event or event today f.e)
 5. Profit
 
-# Sources and Extra Reading
- - https://github.com/voice-engine/make-a-smart-speaker
+## Sources and Extra Reading
+
+- <https://github.com/voice-engine/make-a-smart-speaker>
