@@ -1,4 +1,3 @@
-import requests
 from Services.calendarservices import calDAVServices
 import unittest
 import caldav
