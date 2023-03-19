@@ -24,7 +24,9 @@ class WakeWord:
             self.__runner.chunk_size = chunk
 
     def on_activation(self):
-        self.recognizeSpeech()
-    
-    def recognizeSpeech(self):
-        self.__stt.recognition()
+        text = self.__stt.recognition()
+        if text is not None:
+            print(text)
+        else:
+            print("No Input Detected")
+
