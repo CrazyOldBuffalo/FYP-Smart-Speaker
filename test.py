@@ -1,9 +1,9 @@
 from datetime import datetime
-from Services.calendarservices import calDAVServices
+from Services.calendarservices import CalDAVServices
 from Services.sttTest import SpeechToText
 from wakeWordtest import WakeWord
     
-def createEvent(calDAVService: calDAVServices):
+def createEvent(calDAVService: CalDAVServices):
     month = int(input("Enter Month as Number: \n"))
     day = int(input("Enter Day as Number \n"))
     hour = int(input("Enter Hour: \n"))

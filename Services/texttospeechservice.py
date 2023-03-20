@@ -1,7 +1,10 @@
+from datetime import datetime
+
 import pyttsx3
 from Services.event import EventObj
 
-class textToSpeechService:
+
+class TextToSpeechService:
 
     def __init__(self):
         self.engine = pyttsx3.init()
@@ -14,7 +17,7 @@ class textToSpeechService:
         self.engine.say(text)
         self.engine.runAndWait()
 
-    def eventCreated(self, startdate, startime, eventname):
+    def eventCreated(self, startdate : datetime, startime, eventname):
         self.engine.say("Event Successfully Created.")
         self.engine.say("Name: %s," % (eventname))
         self.engine.say("On %s," % (startdate))
@@ -22,21 +25,21 @@ class textToSpeechService:
         self.engine.runAndWait()
 
     def listEventsToday(self, events: list[EventObj]):
-        self.engine.say("There are %s Events Today" %(len(events)))
+        self.engine.say("There are %s Events Today" % (len(events)))
         for i in events:
             self.engine.say("%s: " % (i))
-            self.engine.say("Name: %s," %(i.getSummary()))
-            self.engine.say("On: %s," %(i.getStartDate()))
-            self.engine.say("At: %s" %(i.getStartTime()))
+            self.engine.say("Name: %s," % (i.getSummary()))
+            self.engine.say("On: %s," % (i.getStartDate()))
+            self.engine.say("At: %s" % (i.getStartTime()))
             self.engine.runAndWait()
 
     def listEvents(self, events: list[EventObj]):
-        self.engine.say("There are %s Events in the Calendar" %(len(events)))
+        self.engine.say("There are %s Events in the Calendar" % (len(events)))
         for i in events:
-            self.engine.say("Name: %s," %(i.getSummary()))
-            self.engine.say("On: %s," %(i.getStartDate()))
-            self.engine.say("At: %s" %(i.getStartTime()))
-            self.engine.runAndWait();
+            self.engine.say("Name: %s," % (i.getSummary()))
+            self.engine.say("On: %s," % (i.getStartDate()))
+            self.engine.say("At: %s" % (i.getStartTime()))
+            self.engine.runAndWait()
 
     def noEventsFound(self):
         self.engine.say("Sorry, no events found")
