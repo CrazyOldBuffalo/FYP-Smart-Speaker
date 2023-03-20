@@ -27,15 +27,16 @@ class TestCalendarServices(unittest.TestCase):
         calendar_name = "Test Calendar"
         new_calendar = cal_dav_service.create_calendar("Test Calendar")
         self.assertIsInstance(new_calendar, caldav.Calendar, "Calendar Created")
-        self.assertEqual(new_calendar.get, calendar_name, "Calendar Name Correct")
+        self.assertEqual(new_calendar.name, calendar_name, "Calendar Name Correct")
 
     def testCreateEvent(self):
         cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
-        start_date = datetime.datetime.now()
+        start_date = datetime.datetime.now().replace(microsecond=0)
         summary = "Test Event"
         new_event = cal_dav_service.create_event(start_date, summary)
+        event_without_timezone = new_event.icalendar_component.get('DTSTART').dt.replace(tzinfo=None)
         self.assertIsNotNone(new_event, "Event Created")
-        self.assertEqual(new_event.icalendar_component.get('DTSTART').dt, start_date, "Event Date Correct")
+        self.assertEqual(event_without_timezone, start_date, "Event Date Correct")
         self.assertEqual(new_event.icalendar_component.get('SUMMARY'), summary, "Event Summary Correct")
 
     def testCreateEventEnd(self):
