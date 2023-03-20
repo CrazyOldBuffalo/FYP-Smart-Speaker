@@ -1,144 +1,105 @@
 # Install and setup the imports from external Libs.
 # Done for the plugin to allow for interactions with the server.
+# Imports the caldav library from pip install
 
+import caldav
 import sys
-from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from Services.texttospeechservice import textToSpeechService
-from Services.calendarParser import CalendarParser
 
-sys.path.insert(0, "..");
-sys.path.insert(0, ".");
+sys.path.insert(0, "..")
+sys.path.insert(0, ".")
 
-# Imports the caldav library from pip install
-import caldav
 
 # Class for the calDavServices
 # Features all the functions for accessing the caldav server and manipulating events on it.
 # Can be created in other classes as an object and interacted with from there.
-class calDAVServices:
+class CalDAVServices:
 
-    def __init__(self, url, username, password):
-        self.url = url
-        self.username = username
-        self.password = password
-        self.myprinciple = self.clientConnection(self.url, self.username, self.password)
-        self.ttsService = textToSpeechService()
-        self.calParser = CalendarParser()
+    def __init__(self, url: str, username: str, password: str) -> None:
+        self.__url = url
+        self.__username = username
+        self.__password = password
+        self.__my_principle = self.client_connection(self.__url, self.__username, self.__password)
 
+    # Initial connection to CalDav Server via client
+    @staticmethod
+    def client_connection(caldav_url: str, username: str, password: str) -> caldav.DAVClient.principal:
+        client = caldav.DAVClient(url=caldav_url, username=username, password=password)
+        my_principle = client.principal()
+        return my_principle
+
+    # Functions for interacting with the calendars
     # Getting All Calendar Information and Data
-    def getCalendars(self):
-        calendars = self.myprinciple.calendars()
+    def get_calendars(self) -> list[caldav.DAVClient.calendar]:
+        calendars = self.__my_principle.calendars()
         return calendars
 
-    # Testing function
-    def listCalendars(self):
-        calendars = self.getCalendars();
-        if calendars:
-            print("You have %i calendars: " % len(calendars))
-            for c in calendars:
-                print(" Name: %-36s URL: %s" % (c.name, c.url))
-        else:
-            print("You have no calendars, Create One!")
-    
-    # Function for creating a calendar, Not used in project but there for testing
-    def createCalendar(self, calendarName):
-        new_calendar = self.myprinciple.make_calendar(name = calendarName)
+    # Function for creating a calendar, Not used in project but there for other Usage if Required
+    def create_calendar(self, calendar_name: str) -> caldav.DAVClient.calendar():
+        new_calendar = self.__my_principle.make_calendar(name=calendar_name)
         return new_calendar
-    
 
     # Functions for creating events
     # Function for creating a generic event that lasts 1 hour
-    def createEvent(self, startdate, title):
-        calendars = self.getCalendars()
+    def create_event(self, start_date: datetime, title: str) -> caldav.Event:
+        calendars = self.get_calendars()
         new_event = calendars[0].save_event(
-            dtstart = startdate,
-            dtend = startdate + timedelta(hours=1),
-            summary = title
+            dtstart=start_date,
+            dtend=start_date + timedelta(hours=1),
+            summary=title
         )
-        event = self.calParser.parseICS(new_event)
-        if(event is None):
-            self.ttsService.eventError()
-        else:
-            self.ttsService.eventCreated(event.convertDTToString(event.getStartDate()), event.convertDTToString(event.getStartTime()), event.getSummary())
+        return new_event
 
-    # Function for creating a generic event with an endtime passed in
-    def createEventEnd(self, startdate, enddate, title):
-        calendars = self.getCalendars()
+    # Function for creating a generic event with an end time passed in
+    def create_event_end(self, start_date: datetime, end_date: datetime, title: str) -> caldav.Event:
+        calendars = self.get_calendars()
         new_event = calendars[0].save_event(
-            dtstart = startdate,
-            dtend = enddate,
-            summary = title
+            dtstart=start_date,
+            dtend=end_date,
+            summary=title
         )
-        event = self.calParser.parseICS(new_event)
-        if(event is None):
-            self.ttsService.eventError()
-        else:
-            self.ttsService.eventCreated(event.convertDTToString(event.getStartDate()), event.convertDTToString(event.getStartTime()), event.getSummary())
+        return new_event
 
     # Functions for searching for events
     # Searches for an event today at current time for 24hrs later
-    def searchEventToday(self):
+    def search_event_today(self) -> list[caldav.Event]:
         events = []
-        calendar = self.getCalendars()
+        calendar = self.get_calendars()
         search_results = calendar[0].search(
-            start = datetime.today(),
-            end = datetime.today() + timedelta(days=1),
+            start=datetime.today(),
+            end=datetime.today() + timedelta(days=1),
             event=True,
             expand=False,
         )
-        if(search_results is None):
-            self.ttsService.searchEmpty()
-        else:
-            for i in search_results:
-                ev = self.calParser.parseICS(i)
-                events.append(ev)
-            self.ttsService.listEventsToday(events)
-    
+        return search_results
+
     # Searches for all Events on the Calendar
-    def searchAllEvent(self):
+    def search_all_events(self) -> list[caldav.Event]:
         events = []
-        calendar = self.getCalendars()
+        calendar = self.get_calendars()
         search_results = calendar[0].search(event=True, expand=False)
-        if(search_results is None):
-            self.ttsService.noEventsFound()
-        else:
-            for i in search_results:
-                ev = self.calParser.parseICS(i)
-                events.append(ev)
-            self.ttsService.listEvents(events)
-    
+        return search_results
+
     # Searches for one event using the url
-    def searchOneEvent(self, url):
-        calendar = self.getCalendars()
+    def search_one_event(self, url: str) -> list[caldav.Event]:
+        calendar = self.get_calendars()
         item = calendar[0].event_by_url(url)
-        if(item is None):
-            self.ttsService.noEventsFound()
-        else:
-            ev = self.calParser.parseICS(item)
-            
+        return item
 
     # Searches for an event from today to max setting for the summary
-    def searchEventSummary(self, summary):
-        calendar = self.getCalendars()
-        starttime = datetime.today()
+    def search_event_summary(self, start_date: datetime, summary: str) -> list[caldav.Event]:
+        calendar = self.get_calendars()
+        start_date = datetime.today()
         search_results = calendar[0].search(
-            event = True,
-            expand = False,
-            start = starttime,
-            end = datetime.max(),
-            summary = summary
+            event=True,
+            expand=False,
+            start=start_date,
+            end=datetime.max,
+            summary=summary
         )
         return search_results
-    
-    # Functions for editing & deleting events - In Progress
-    def deleteEvent(self, ics, summary):
-        pass
 
-    # Initial connection to CalDav Server via client
-    def clientConnection(self, calDavUrl, uName, passW):
-        
-        with caldav.DAVClient(url=calDavUrl, username=uName, password=passW) as client:
-            myprinciple = client.principal()
-            return myprinciple
+    # Functions for editing & deleting events - In Progress
+    def delete_event(self, ics, summary: str) -> None:
+        pass
