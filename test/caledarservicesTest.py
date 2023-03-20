@@ -40,25 +40,25 @@ class TestCalendarServices(unittest.TestCase):
 
     def testSearchEventToday(self):
         cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
-        event = CalDAVServices.create_event(datetime.datetime.now(), "Test Event")
+        event = cal_dav_service.create_event(datetime.datetime.now(), "Test Event")
         events = cal_dav_service.search_event_today()
         self.assertGreaterEqual(len(events), 1, "Events Found")
 
     def testSearchAllEvents(self):
         cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
-        event = CalDAVServices.create_event(datetime.datetime.now(), "Test Event")
+        event = cal_dav_service.create_event(datetime.datetime.now(), "Test Event")
         events = cal_dav_service.search_all_events()
         self.assertGreaterEqual(len(events), 1, "Events Found")
 
     def testSearchEventByDate(self):
         cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
-        event = CalDAVServices.create_event(datetime.datetime.now(), "Test Event")
+        event = cal_dav_service.create_event(datetime.datetime.now(), "Test Event")
         events = cal_dav_service.search_event_by_date(datetime.datetime.now())
         self.assertGreaterEqual(len(events), 1, "Events Found")
 
     def testSearchEventByDateRange(self):
         cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
-        event = CalDAVServices.create_event(datetime.datetime.today() + datetime.timedelta(days=1), "Test Event")
+        event = cal_dav_service.create_event(datetime.datetime.today() + datetime.timedelta(days=1), "Test Event")
         events = cal_dav_service.search_event_by_date_range(datetime.datetime.now(),
                                                             datetime.datetime.now() + datetime.timedelta(days=3))
 
