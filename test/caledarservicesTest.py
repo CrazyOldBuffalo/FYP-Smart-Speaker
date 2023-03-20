@@ -11,7 +11,7 @@ class TestCalendarServices(unittest.TestCase):
         username = "test"
         password = "password"
         cal_dav_service = CalDAVServices(url, username, password)
-        self.assertIsInstance(cal_dav_service, caldav.Principal, "Connection Successful")
+        self.assertIsInstance(cal_dav_service, CalDAVServices, "Connection Successful")
         self.assertEqual(cal_dav_service.get_url(), "http://localhost/dav.php", "URL Correct")
         self.assertEqual(cal_dav_service.get_username(), username, "Username Correct")
         self.assertEqual(cal_dav_service.get_password(), password, "Password Correct")
