@@ -33,6 +33,27 @@ class CalDAVServices:
             print("Connection Failed")
             return Exception
 
+    def get_username(self) -> str:
+        return self.__username
+
+    def get_password(self) -> str:
+        return self.__password
+
+    def get_url(self) -> str:
+        return self.__url
+
+    def get_my_principle(self) -> caldav.DAVClient.principal:
+        return self.__my_principle
+
+    def set_username(self, username: str) -> None:
+        self.__username = username
+
+    def set_password(self, password: str) -> None:
+        self.__password = password
+
+    def set_url(self, url: str) -> None:
+        self.__url = url
+
     # Functions for interacting with the calendars
     # Getting All Calendar Information and Data
     def get_calendars(self) -> list[caldav.DAVClient.calendar]:
