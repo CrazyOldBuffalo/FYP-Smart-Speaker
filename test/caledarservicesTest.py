@@ -7,8 +7,15 @@ import datetime
 class TestCalendarServices(unittest.TestCase):
 
     def testCalendarServicesConnection(self):
-        cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
+        url = "http://localhost/dav.php"
+        username = "test"
+        password = "password"
+        cal_dav_service = CalDAVServices(url, username, password)
         self.assertIsInstance(cal_dav_service, caldav.Principal, "Connection Successful")
+        self.assertEqual(cal_dav_service.get_url(), "http://localhost/dav.php", "URL Correct")
+        self.assertEqual(cal_dav_service.get_username(), username, "Username Correct")
+        self.assertEqual(cal_dav_service.get_password(), password, "Password Correct")
+        self.assertIsNotNone(cal_dav_service.get_my_principle())
 
     def testGetCalendars(self):
         cal_dav_service = CalDAVServices("http://localhost/dav.php", "test", "password")
