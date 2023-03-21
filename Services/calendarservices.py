@@ -180,8 +180,19 @@ class CalDAVServices:
             search_results = self.search_event_summary(search_date, summary)
             if len(search_results) > 1:
                 print("Multiple Events Found")
-            else:
+            elif len(search_results) == 1:
                 event = self.search_one_event(search_results[0].url)
                 event.delete()
+            else:
+                print("No Events Found")
         except Exception:
             print("Failed to Delete Event")
+
+    def delete_all_events(self) -> None:
+        try:
+            calendar = self.get_calendars()
+            search_results = self.search_all_events()
+            for event in search_results:
+                event.delete()
+        except Exception:
+            print("Failed to Delete Events")
